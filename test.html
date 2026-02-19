@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NERVE CLI Test Page - All Form Elements</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 { color: #333; border-bottom: 3px solid #007bff; padding-bottom: 10px; }
+    h2 { color: #555; margin-top: 40px; background: #e9ecef; padding: 10px; border-radius: 5px; }
+    .section { 
+      background: white; 
+      padding: 20px; 
+      margin: 10px 0; 
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    label { display: block; margin: 10px 0 5px; font-weight: 600; color: #333; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="password"],
+    input[type="number"], input[type="date"], input[type="file"], textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    textarea { height: 100px; resize: vertical; }
+    button, input[type="submit"] {
+      background: #007bff;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px 5px 5px 0;
+    }
+    button:hover, input[type="submit"]:hover { background: #0056b3; }
+    .btn-secondary { background: #6c757d; }
+    .btn-success { background: #28a745; }
+    .btn-danger { background: #dc3545; }
+    
+    /* Radio & Checkbox styling */
+    .radio-group, .checkbox-group { margin: 15px 0; }
+    .radio-group label, .checkbox-group label { 
+      display: inline-flex; 
+      align-items: center; 
+      margin-right: 20px;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    .radio-group input, .checkbox-group input { margin-right: 8px; width: auto; }
+    
+    /* Custom dropdown */
+    .custom-dropdown {
+      position: relative;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .custom-dropdown-trigger {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .custom-dropdown-trigger:after {
+      content: '▼';
+      font-size: 12px;
+      color: #666;
+    }
+    .custom-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .custom-dropdown.open .custom-dropdown-menu { display: block; }
+    .custom-dropdown-item {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .custom-dropdown-item:hover { background: #f0f0f0; }
+    
+    /* Hover menu */
+    .hover-menu {
+      position: relative;
+      display: inline-block;
+    }
+    .hover-menu-trigger {
+      padding: 10px 20px;
+      background: #6c757d;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .hover-menu-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      min-width: 200px;
+      z-index: 100;
+    }
+    .hover-menu:hover .hover-menu-content { display: block; }
+    .hover-menu-item {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .hover-menu-item:hover { background: #f0f0f0; }
+    
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+    }
+    .modal h3 { margin-top: 0; }
+    .modal-close {
+      float: right;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    /* Accordion */
+    .accordion-item { border: 1px solid #ccc; margin-bottom: -1px; }
+    .accordion-header {
+      padding: 15px;
+      background: #f8f9fa;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+    .accordion-header:hover { background: #e9ecef; }
+    .accordion-content {
+      display: none;
+      padding: 15px;
+      border-top: 1px solid #ccc;
+    }
+    .accordion-item.open .accordion-content { display: block; }
+    .accordion-item.open .accordion-header:after { content: '−'; }
+    .accordion-header:after { content: '+'; }
+    
+    /* Tabs */
+    .tabs { margin: 20px 0; }
+    .tab-buttons { display: flex; border-bottom: 2px solid #dee2e6; }
+    .tab-button {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab-button.active { border-bottom-color: #007bff; color: #007bff; font-weight: 600; }
+    .tab-content { display: none; padding: 20px; background: #f8f9fa; }
+    .tab-content.active { display: block; }
+    
+    /* Drag and drop */
+    .drag-container { display: flex; gap: 20px; margin: 15px 0; }
+    .drag-list {
+      flex: 1;
+      min-height: 150px;
+      background: #f8f9fa;
+      border: 2px dashed #ccc;
+      border-radius: 5px;
+      padding: 10px;
+    }
+    .drag-item {
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      cursor: grab;
+    }
+    .drag-item:active { cursor: grabbing; }
+    .drag-list.drag-over { border-color: #007bff; background: #e7f1ff; }
+    
+    /* Multi-select */
+    .multi-select {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .multi-select-item {
+      padding: 8px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .multi-select-item:hover { background: #f0f0f0; }
+    .multi-select-item.selected { background: #e7f1ff; }
+    .multi-select-item input { margin-right: 10px; }
+    
+    /* Autocomplete */
+    .autocomplete-wrapper { position: relative; }
+    .autocomplete-results {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .autocomplete-results.open { display: block; }
+    .autocomplete-item {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .autocomplete-item:hover, .autocomplete-item.highlighted { background: #f0f0f0; }
+    
+    /* Cookie banner */
+    .cookie-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #333;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2000;
+    }
+    .cookie-banner.hidden { display: none; }
+    .cookie-banner button { margin-left: 10px; }
+    
+    /* Infinite scroll */
+    .infinite-scroll-container {
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .infinite-scroll-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .loading-spinner {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+    
+    /* Status messages */
+    .status {
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+      display: none;
+    }
+    .status.success { display: block; background: #d4edda; color: #155724; }
+    .status.error { display: block; background: #f8d7da; color: #721c24; }
+    
+    /* Iframe container */
+    .iframe-container {
+      border: 2px solid #007bff;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .iframe-container iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+
+    /* Floating labels */
+    .floating-label {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .floating-label input {
+      padding: 20px 10px 10px;
+    }
+    .floating-label label {
+      position: absolute;
+      top: 12px;
+      left: 10px;
+      font-weight: normal;
+      color: #666;
+      transition: all 0.2s;
+      pointer-events: none;
+    }
+    .floating-label input:focus + label,
+    .floating-label input:not(:placeholder-shown) + label {
+      top: 2px;
+      font-size: 12px;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cookie Banner -->
+  <div class="cookie-banner" id="cookieBanner">
+    <span>🍪 We use cookies to enhance your experience. By continuing, you agree to our cookie policy.</span>
+    <div>
+      <button class="btn-secondary" onclick="closeCookieBanner()">Cookie Settings</button>
+      <button onclick="closeCookieBanner()">Accept All Cookies</button>
+    </div>
+  </div>
+
+  <h1>🤖 NERVE CLI Test Page</h1>
+  <p>This page contains all common form elements and UI patterns for testing browser automation.</p>
+
+  <!-- SECTION 1: Basic Inputs -->
+  <h2>1. Basic Text Inputs</h2>
+  <div class="section">
+    <label for="firstName">First Name</label>
+    <input type="text" id="firstName" placeholder="Enter your first name">
+    
+    <label for="lastName">Last Name</label>
+    <input type="text" id="lastName" placeholder="Enter your last name">
+    
+    <label for="email">Email Address</label>
+    <input type="email" id="email" placeholder="you@example.com">
+    
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" placeholder="+44 7xxx xxxxxx">
+    
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter password">
+    
+    <label for="message">Message</label>
+    <textarea id="message" placeholder="Type your message here..."></textarea>
+  </div>
+
+  <!-- SECTION 2: Floating Labels -->
+  <h2>2. Floating Labels (Modern Style)</h2>
+  <div class="section">
+    <div class="floating-label">
+      <input type="text" id="floatName" placeholder=" ">
+      <label for="floatName">Your Name</label>
+    </div>
+    <div class="floating-label">
+      <input type="email" id="floatEmail" placeholder=" ">
+      <label for="floatEmail">Email Address</label>
+    </div>
+  </div>
+
+  <!-- SECTION 3: Native Select -->
+  <h2>3. Native Select Dropdowns</h2>
+  <div class="section">
+    <label for="country">Country</label>
+    <select id="country">
+      <option value="">Select a country</option>
+      <option value="uk">United Kingdom</option>
+      <option value="us">United States</option>
+      <option value="ca">Canada</option>
+      <option value="au">Australia</option>
+      <option value="de">Germany</option>
+      <option value="fr">France</option>
+    </select>
+    
+    <label for="partySize">Party Size</label>
+    <select id="partySize">
+      <option value="1">1 person</option>
+      <option value="2" selected>2 people</option>
+      <option value="3">3 people</option>
+      <option value="4">4 people</option>
+      <option value="5">5 people</option>
+      <option value="6">6 people</option>
+    </select>
+  </div>
+
+  <!-- SECTION 4: Custom Dropdown -->
+  <h2>4. Custom Dropdown (Non-Native)</h2>
+  <div class="section">
+    <label>I'm Interested In</label>
+    <div class="custom-dropdown" id="customDropdown">
+      <div class="custom-dropdown-trigger" onclick="toggleCustomDropdown()">
+        <span id="customDropdownValue">Select an option</span>
+      </div>
+      <div class="custom-dropdown-menu">
+        <div class="custom-dropdown-item" onclick="selectCustomOption('Windows')">Windows</div>
+        <div class="custom-dropdown-item" onclick="selectCustomOption('Doors')">Doors</div>
+        <div class="custom-dropdown-item" onclick="selectCustomOption('Conservatories')">Conservatories</div>
+        <div class="custom-dropdown-item" onclick="selectCustomOption('Roofing')">Roofing</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: Radio Buttons -->
+  <h2>5. Radio Buttons</h2>
+  <div class="section">
+    <label>Preferred Contact Method</label>
+    <div class="radio-group">
+      <label><input type="radio" name="contact" value="email"> Email</label>
+      <label><input type="radio" name="contact" value="phone"> Phone</label>
+      <label><input type="radio" name="contact" value="text"> Text Message</label>
+    </div>
+    
+    <label>Appointment Time</label>
+    <div class="radio-group">
+      <label><input type="radio" name="time" value="morning"> Morning (9am-12pm)</label>
+      <label><input type="radio" name="time" value="afternoon"> Afternoon (12pm-5pm)</label>
+      <label><input type="radio" name="time" value="evening"> Evening (5pm-8pm)</label>
+    </div>
+  </div>
+
+  <!-- SECTION 6: Checkboxes -->
+  <h2>6. Checkboxes</h2>
+  <div class="section">
+    <label>Services Required</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="services" value="install"> Installation</label>
+      <label><input type="checkbox" name="services" value="repair"> Repair</label>
+      <label><input type="checkbox" name="services" value="maintenance"> Maintenance</label>
+      <label><input type="checkbox" name="services" value="consultation"> Consultation</label>
+    </div>
+    
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="newsletter"> Sign me up for the newsletter</label>
+    </div>
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="terms"> I agree to the terms and conditions</label>
+    </div>
+  </div>
+
+  <!-- SECTION 7: Date & Time -->
+  <h2>7. Date and Time Inputs</h2>
+  <div class="section">
+    <label for="dateNative">Date (Native)</label>
+    <input type="date" id="dateNative">
+    
+    <label for="timeNative">Time (Native)</label>
+    <input type="time" id="timeNative">
+    
+    <label>Date Picker (Custom Calendar)</label>
+    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
+      <button onclick="prevMonth()">◀</button>
+      <span id="calendarMonth" style="min-width: 150px; text-align: center; font-weight: 600;">February 2026</span>
+      <button onclick="nextMonth()">▶</button>
+    </div>
+    <div id="calendar" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 15px;">
+      <!-- Calendar will be rendered by JS -->
+    </div>
+    <div>Selected: <span id="selectedDate">None</span></div>
+  </div>
+
+  <!-- SECTION 8: Autocomplete -->
+  <h2>8. Autocomplete / Search</h2>
+  <div class="section">
+    <label for="citySearch">Search City</label>
+    <div class="autocomplete-wrapper">
+      <input type="text" id="citySearch" placeholder="Start typing a city name..." oninput="handleAutocomplete(this.value)">
+      <div class="autocomplete-results" id="autocompleteResults"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 9: File Upload -->
+  <h2>9. File Upload</h2>
+  <div class="section">
+    <label for="fileUpload">Upload Document</label>
+    <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.jpg,.png">
+    
+    <label for="multiFileUpload">Upload Multiple Files</label>
+    <input type="file" id="multiFileUpload" multiple accept="image/*">
+    
+    <div id="uploadStatus" class="status"></div>
+  </div>
+
+  <!-- SECTION 10: Multi-Select -->
+  <h2>10. Multi-Select List</h2>
+  <div class="section">
+    <label>Select Your Skills (Multiple)</label>
+    <div class="multi-select" id="multiSelect">
+      <div class="multi-select-item" onclick="toggleMultiSelect(this)">
+        <input type="checkbox"> JavaScript
+      </div>
+      <div class="multi-select-item" onclick="toggleMultiSelect(this)">
+        <input type="checkbox"> Python
+      </div>
+      <div class="multi-select-item" onclick="toggleMultiSelect(this)">
+        <input type="checkbox"> TypeScript
+      </div>
+      <div class="multi-select-item" onclick="toggleMultiSelect(this)">
+        <input type="checkbox"> React
+      </div>
+      <div class="multi-select-item" onclick="toggleMultiSelect(this)">
+        <input type="checkbox"> Node.js
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 11: Hover Menu -->
+  <h2>11. Hover Menu</h2>
+  <div class="section">
+    <div class="hover-menu">
+      <div class="hover-menu-trigger">Hover Over Me</div>
+      <div class="hover-menu-content">
+        <div class="hover-menu-item" onclick="alert('Option 1 clicked!')">Option 1</div>
+        <div class="hover-menu-item" onclick="alert('Option 2 clicked!')">Option 2</div>
+        <div class="hover-menu-item" onclick="alert('Option 3 clicked!')">Option 3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 12: Tabs -->
+  <h2>12. Tabs</h2>
+  <div class="section">
+    <div class="tabs">
+      <div class="tab-buttons">
+        <button class="tab-button active" onclick="openTab('tab1', this)">Personal Info</button>
+        <button class="tab-button" onclick="openTab('tab2', this)">Address</button>
+        <button class="tab-button" onclick="openTab('tab3', this)">Preferences</button>
+      </div>
+      <div class="tab-content active" id="tab1">
+        <p>This is the Personal Info tab content.</p>
+        <input type="text" placeholder="Your nickname">
+      </div>
+      <div class="tab-content" id="tab2">
+        <p>This is the Address tab content.</p>
+        <input type="text" placeholder="Street address">
+      </div>
+      <div class="tab-content" id="tab3">
+        <p>This is the Preferences tab content.</p>
+        <label><input type="checkbox"> Enable notifications</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 13: Accordion -->
+  <h2>13. Accordion</h2>
+  <div class="section">
+    <div class="accordion-item" onclick="toggleAccordion(this)">
+      <div class="accordion-header">What is NERVE CLI?</div>
+      <div class="accordion-content">NERVE CLI is a browser automation tool that uses simple text commands to interact with web pages.</div>
+    </div>
+    <div class="accordion-item" onclick="toggleAccordion(this)">
+      <div class="accordion-header">How do I use it?</div>
+      <div class="accordion-content">You can use commands like click, type, scroll, and more to automate interactions.</div>
+    </div>
+    <div class="accordion-item" onclick="toggleAccordion(this)">
+      <div class="accordion-header">Does it work with iframes?</div>
+      <div class="accordion-content">Yes! Use the iclick command for elements inside iframes.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 14: Modal -->
+  <h2>14. Modal / Popup</h2>
+  <div class="section">
+    <button onclick="openModal()">Open Modal</button>
+    <button class="btn-secondary" onclick="openConfirmModal()">Open Confirm Dialog</button>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h3>Modal Title</h3>
+      <p>This is a modal dialog. Fill in the form below:</p>
+      <label for="modalInput">Your Input</label>
+      <input type="text" id="modalInput" placeholder="Type something...">
+      <button onclick="submitModal()">Submit</button>
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-overlay" id="confirmModal" onclick="closeConfirmModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <h3>Confirm Action</h3>
+      <p>Are you sure you want to proceed with this action?</p>
+      <button class="btn-danger" onclick="confirmAction()">Yes, Proceed</button>
+      <button class="btn-secondary" onclick="closeConfirmModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- SECTION 15: Drag and Drop -->
+  <h2>15. Drag and Drop</h2>
+  <div class="section">
+    <p>Drag items from left to right:</p>
+    <div class="drag-container">
+      <div class="drag-list" id="dragSource" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
+        <div class="drag-item" draggable="true" ondragstart="drag(event)" id="item1">Item 1</div>
+        <div class="drag-item" draggable="true" ondragstart="drag(event)" id="item2">Item 2</div>
+        <div class="drag-item" draggable="true" ondragstart="drag(event)" id="item3">Item 3</div>
+      </div>
+      <div class="drag-list" id="dragTarget" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
+        <p style="color: #999; text-align: center;">Drop items here</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 16: Infinite Scroll -->
+  <h2>16. Infinite Scroll</h2>
+  <div class="section">
+    <div class="infinite-scroll-container" id="infiniteScroll" onscroll="handleInfiniteScroll()">
+      <!-- Items will be loaded dynamically -->
+    </div>
+  </div>
+
+  <!-- SECTION 17: Iframe with Form -->
+  <h2>17. Embedded Form (Iframe)</h2>
+  <div class="section">
+    <p>This simulates an embedded form like you might find on real websites:</p>
+    <div class="iframe-container">
+      <iframe id="embeddedForm" srcdoc="
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: sans-serif; padding: 20px; margin: 0; background: #f0f7ff; }
+            label { display: block; margin: 10px 0 5px; font-weight: 600; }
+            input, select, textarea { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+            button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+            .dropdown { position: relative; }
+            .dropdown-btn { width: 100%; text-align: left; background: white; border: 1px solid #ccc; }
+            .dropdown-menu { display: none; position: absolute; background: white; border: 1px solid #ccc; width: 100%; z-index: 10; }
+            .dropdown.open .dropdown-menu { display: block; }
+            .dropdown-item { padding: 8px; cursor: pointer; }
+            .dropdown-item:hover { background: #f0f0f0; }
+          </style>
+        </head>
+        <body>
+          <h3 style='margin-top:0'>📧 Contact Form (in iframe)</h3>
+          <label>Name</label>
+          <input type='text' id='iframeName' placeholder='Your name'>
+          <label>Email</label>
+          <input type='email' id='iframeEmail' placeholder='you@example.com'>
+          <label>Interest</label>
+          <div class='dropdown' id='iframeDropdown'>
+            <button type='button' class='dropdown-btn' onclick='this.parentElement.classList.toggle(\"open\")'>
+              <span id='iframeDropdownValue'>Select interest...</span> ▼
+            </button>
+            <div class='dropdown-menu'>
+              <div class='dropdown-item' onclick='selectIframeOption(\"Product Demo\")'>Product Demo</div>
+              <div class='dropdown-item' onclick='selectIframeOption(\"Pricing Info\")'>Pricing Info</div>
+              <div class='dropdown-item' onclick='selectIframeOption(\"Support\")'>Support</div>
+            </div>
+          </div>
+          <label><input type='checkbox' id='iframeConsent'> I agree to be contacted</label>
+          <br><br>
+          <button onclick='alert(\"Form submitted!\")'>Submit Inquiry</button>
+          <script>
+            function selectIframeOption(value) {
+              document.getElementById('iframeDropdownValue').textContent = value;
+              document.getElementById('iframeDropdown').classList.remove('open');
+            }
+          </script>
+        </body>
+        </html>
+      "></iframe>
+    </div>
+  </div>
+
+  <!-- SECTION 18: Buttons -->
+  <h2>18. Various Buttons</h2>
+  <div class="section">
+    <button onclick="showStatus('success', 'Primary button clicked!')">Primary Button</button>
+    <button class="btn-secondary" onclick="showStatus('success', 'Secondary button clicked!')">Secondary Button</button>
+    <button class="btn-success" onclick="showStatus('success', 'Success button clicked!')">Success Button</button>
+    <button class="btn-danger" onclick="showStatus('error', 'Danger button clicked!')">Danger Button</button>
+    <button disabled>Disabled Button</button>
+    
+    <div id="buttonStatus" class="status"></div>
+  </div>
+
+  <!-- SECTION 19: Form Submit -->
+  <h2>19. Complete Form with Submit</h2>
+  <div class="section">
+    <form id="completeForm" onsubmit="handleFormSubmit(event)">
+      <label for="fullName">Full Name *</label>
+      <input type="text" id="fullName" required placeholder="John Smith">
+      
+      <label for="emailFinal">Email *</label>
+      <input type="email" id="emailFinal" required placeholder="john@example.com">
+      
+      <label for="phoneFinal">Phone</label>
+      <input type="tel" id="phoneFinal" placeholder="+44 7xxx xxxxxx">
+      
+      <label for="commentsFinal">Comments</label>
+      <textarea id="commentsFinal" placeholder="Any additional comments..."></textarea>
+      
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="agreeFinal" required> I agree to the privacy policy *</label>
+      </div>
+      
+      <input type="submit" value="Submit Form">
+    </form>
+    <div id="formStatus" class="status"></div>
+  </div>
+
+  <script>
+    // Cookie banner
+    function closeCookieBanner() {
+      document.getElementById('cookieBanner').classList.add('hidden');
+    }
+
+    // Custom dropdown
+    function toggleCustomDropdown() {
+      document.getElementById('customDropdown').classList.toggle('open');
+    }
+    function selectCustomOption(value) {
+      document.getElementById('customDropdownValue').textContent = value;
+      document.getElementById('customDropdown').classList.remove('open');
+    }
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.custom-dropdown')) {
+        document.getElementById('customDropdown').classList.remove('open');
+      }
+    });
+
+    // Calendar
+    let currentMonth = 1; // February (0-indexed)
+    let currentYear = 2026;
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    function renderCalendar() {
+      const calendar = document.getElementById('calendar');
+      const monthLabel = document.getElementById('calendarMonth');
+      monthLabel.textContent = `${months[currentMonth]} ${currentYear}`;
+      
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      
+      // Day headers
+      let html = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => 
+        `<div style="text-align:center;font-weight:600;font-size:12px;color:#666;">${d}</div>`
+      ).join('');
+      
+      // Empty cells for first week
+      for (let i = 0; i < firstDay; i++) {
+        html += '<div></div>';
+      }
+      
+      // Day cells
+      for (let day = 1; day <= daysInMonth; day++) {
+        html += `<button type="button" onclick="selectDate(${day})" style="padding:8px;border:1px solid #ddd;background:white;cursor:pointer;border-radius:4px;">${day}</button>`;
+      }
+      
+      calendar.innerHTML = html;
+    }
+    
+    function prevMonth() {
+      currentMonth--;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      renderCalendar();
+    }
+    
+    function nextMonth() {
+      currentMonth++;
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      renderCalendar();
+    }
+    
+    function selectDate(day) {
+      document.getElementById('selectedDate').textContent = `${day} ${months[currentMonth]} ${currentYear}`;
+    }
+    
+    renderCalendar();
+
+    // Autocomplete
+    const cities = ['London', 'Liverpool', 'Leeds', 'Leicester', 'Lincoln', 'Manchester', 'Milton Keynes', 'Birmingham', 'Bristol', 'Brighton', 'Bradford', 'Cambridge', 'Canterbury', 'Cardiff', 'Nottingham', 'Newcastle', 'Norwich', 'Oxford', 'Edinburgh', 'Glasgow'];
+    
+    function handleAutocomplete(value) {
+      const results = document.getElementById('autocompleteResults');
+      if (value.length < 2) {
+        results.classList.remove('open');
+        return;
+      }
+      
+      const matches = cities.filter(c => c.toLowerCase().includes(value.toLowerCase()));
+      if (matches.length === 0) {
+        results.classList.remove('open');
+        return;
+      }
+      
+      results.innerHTML = matches.map(m => 
+        `<div class="autocomplete-item" onclick="selectCity('${m}')">${m}</div>`
+      ).join('');
+      results.classList.add('open');
+    }
+    
+    function selectCity(city) {
+      document.getElementById('citySearch').value = city;
+      document.getElementById('autocompleteResults').classList.remove('open');
+    }
+
+    // Multi-select
+    function toggleMultiSelect(item) {
+      const checkbox = item.querySelector('input');
+      checkbox.checked = !checkbox.checked;
+      item.classList.toggle('selected', checkbox.checked);
+    }
+
+    // Tabs
+    function openTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // Accordion
+    function toggleAccordion(item) {
+      item.classList.toggle('open');
+    }
+
+    // Modal
+    function openModal() {
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+    function closeModal(event) {
+      if (!event || event.target === document.getElementById('modalOverlay')) {
+        document.getElementById('modalOverlay').classList.remove('open');
+      }
+    }
+    function submitModal() {
+      const value = document.getElementById('modalInput').value;
+      alert('Modal submitted with: ' + value);
+      closeModal();
+    }
+    function openConfirmModal() {
+      document.getElementById('confirmModal').classList.add('open');
+    }
+    function closeConfirmModal(event) {
+      if (!event || event.target === document.getElementById('confirmModal')) {
+        document.getElementById('confirmModal').classList.remove('open');
+      }
+    }
+    function confirmAction() {
+      alert('Action confirmed!');
+      closeConfirmModal();
+    }
+
+    // Drag and drop
+    function allowDrop(ev) {
+      ev.preventDefault();
+      ev.target.closest('.drag-list').classList.add('drag-over');
+    }
+    function dragLeave(ev) {
+      ev.target.closest('.drag-list').classList.remove('drag-over');
+    }
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+    function drop(ev) {
+      ev.preventDefault();
+      ev.target.closest('.drag-list').classList.remove('drag-over');
+      const data = ev.dataTransfer.getData("text");
+      const item = document.getElementById(data);
+      const target = ev.target.closest('.drag-list');
+      if (target && item) {
+        target.appendChild(item);
+        // Remove placeholder text
+        const placeholder = target.querySelector('p');
+        if (placeholder) placeholder.remove();
+      }
+    }
+
+    // Infinite scroll
+    let infiniteScrollPage = 1;
+    let isLoading = false;
+    
+    function loadMoreItems() {
+      if (isLoading) return;
+      isLoading = true;
+      
+      const container = document.getElementById('infiniteScroll');
+      container.innerHTML += '<div class="loading-spinner">Loading...</div>';
+      
+      setTimeout(() => {
+        container.querySelector('.loading-spinner')?.remove();
+        for (let i = 0; i < 5; i++) {
+          const itemNum = (infiniteScrollPage - 1) * 5 + i + 1;
+          container.innerHTML += `<div class="infinite-scroll-item">Item ${itemNum} - Loaded dynamically</div>`;
+        }
+        infiniteScrollPage++;
+        isLoading = false;
+      }, 500);
+    }
+    
+    function handleInfiniteScroll() {
+      const container = document.getElementById('infiniteScroll');
+      if (container.scrollTop + container.clientHeight >= container.scrollHeight - 10) {
+        loadMoreItems();
+      }
+    }
+    
+    // Initial load
+    loadMoreItems();
+
+    // Status messages
+    function showStatus(type, message) {
+      const status = document.getElementById('buttonStatus');
+      status.className = 'status ' + type;
+      status.textContent = message;
+      setTimeout(() => status.className = 'status', 3000);
+    }
+
+    // Form submit
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const status = document.getElementById('formStatus');
+      status.className = 'status success';
+      status.textContent = '✅ Form submitted successfully!';
+    }
+
+    // Close autocomplete when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.autocomplete-wrapper')) {
+        document.getElementById('autocompleteResults').classList.remove('open');
+      }
+    });
+
+    // Keyboard navigation for autocomplete
+    document.getElementById('citySearch').addEventListener('keydown', (e) => {
+      const results = document.getElementById('autocompleteResults');
+      const items = results.querySelectorAll('.autocomplete-item');
+      const highlighted = results.querySelector('.highlighted');
+      
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!highlighted && items.length) {
+          items[0].classList.add('highlighted');
+        } else if (highlighted && highlighted.nextElementSibling) {
+          highlighted.classList.remove('highlighted');
+          highlighted.nextElementSibling.classList.add('highlighted');
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (highlighted && highlighted.previousElementSibling) {
+          highlighted.classList.remove('highlighted');
+          highlighted.previousElementSibling.classList.add('highlighted');
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (highlighted) {
+          selectCity(highlighted.textContent);
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
